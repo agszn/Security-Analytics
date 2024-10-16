@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block style %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            color: #f44336;
+        }
+        .error-message {
+            font-size: 18px;
+        }
+        .retry-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #f44336;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+    </style>
+{% endblock %}
+
+{% block index %}
+{% endblock %}
+
+{% block content %}
+    <h1 class="header">Decryption Failed</h1>
+    <p class="error-message">Error: {{ error }}</p>
+    <a href="{% url 'decrypt' %}" class="retry-button">Try Again</a>
+{% endblock %}

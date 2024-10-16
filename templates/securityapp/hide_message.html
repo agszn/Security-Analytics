@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block style %}
+    <style>
+        /* CSS classes */
+        .page_container {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin-left : 38em;
+            padding: 20px;
+            width: max-content;
+            text-align: center;
+        }
+        .heading {
+            color: #4CAF50;
+        }
+        .form-container {
+            margin: 20px 0;
+        }
+        .textarea, .file-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .submit-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
+
+{% block index %}
+{% endblock %}
+
+{% block content %}
+<div class="page_container">
+    <h1 class="heading">Hide Message in Image</h1>
+    <form method="post" enctype="multipart/form-data" class="form-container">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="submit-button">Hide Message</button>
+    </form>
+</div>
+{% endblock %}

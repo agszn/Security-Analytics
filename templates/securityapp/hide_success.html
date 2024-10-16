@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block style %}
+    <style>
+        /* CSS classes */
+        .page_container {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin-left : 18em;
+            padding: 20px;
+            width: max-content;
+            text-align: center;
+        }
+        .heading {
+            color: #4CAF50;
+        }
+        .image {
+            max-width: 50%;
+            height: auto;
+        }
+    </style>
+{% endblock %}
+
+{% block index %}
+{% endblock %}
+
+{% block content %}
+<div class="page_container">
+    <h1 class="heading">Message Hidden Successfully</h1>
+    <img src="data:image/png;base64,{{ encoded_image }}" alt="Encoded Image" class="image"/>
+</div>
+{% endblock %}

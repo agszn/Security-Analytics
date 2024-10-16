@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block style %}
+    <style>
+        /* CSS classes */
+        .container01 {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-left : 38em;
+        }
+        .heading {
+            color: #388e3c;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #388e3c;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #2e7d32;
+        }
+    </style>
+{% endblock %}
+
+{% block index %}
+{% endblock %}
+
+{% block content %}
+    <div class="container01">
+        <h1 class="heading">MFA Success!</h1>
+        <a href="{% url 'mfa' %}" class="button">Try Again</a>
+    </div>
+{% endblock %}
+

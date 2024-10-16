@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block style %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            color: #4CAF50;
+        }
+        .text {
+            font-size: 18px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+    </style>
+{% endblock %}
+
+{% block index %}
+{% endblock %}
+
+{% block content %}
+    <h1 class="header">Data Encrypted Successfully!</h1>
+    <p class="text">Encrypted Text: {{ encrypted_text }}</p>
+    <a href="{% url 'encrypt' %}" class="button">Encrypt more data</a>
+{% endblock %}

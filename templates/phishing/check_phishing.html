@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Check Phishing URL{% endblock %}
+
+{% block style %}
+    <style>
+        .page-container {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin-left : 38em;
+            padding: 20px;
+            width: max-content;
+            text-align: center;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-title {
+            color: #333;
+            text-align: center;
+        }
+        .form-content {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-label {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        .form-input {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-button {
+            padding: 10px;
+            border: none;
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-button:hover {
+            background-color: #218838;
+        }
+        .result-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .result-title {
+            color: #333;
+        }
+        .result-text {
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+{% endblock %}
+
+{% block index %}
+{% endblock %}
+
+{% block content %}
+    <div class="page-container">
+        <br>
+        <div class="form-container">
+            <h1 class="form-title">Check if a URL is a Phishing URL</h1>
+            <form method="post" action="{% url 'check_phishing' %}" class="form-content">
+                {% csrf_token %}
+                <label for="url" class="form-label">URL:</label>
+                <input type="text" id="url" name="url" class="form-input" required>
+                <button type="submit" class="form-button">Check</button>
+            </form>
+            {% if result is not None %}
+                <div class="result-container">
+                    <h2 class="result-title">Result</h2>
+                    <p class="result-text">The URL "{{ result.url }}" is {% if result.is_phishing %}a phishing{% else %}not a phishing{% endif %} URL.</p>
+                </div>
+            {% endif %}
+        </div>
+        <br>
+    </div>
+{% endblock %}

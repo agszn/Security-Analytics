@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blog Posts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            /* background: linear-gradient(to right, rgb(194, 194, 203), #dec1c1, #e28989, rgb(236, 105, 105)); */
+            background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .container {
+            width: 75%; /* Adjust as per your layout */
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+        }
+        .sidebar {
+            width: 20%; /* Adjust as per your layout */
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            height: fit-content;
+        }
+        h1, h2 {
+            color: #333333;
+        }
+        p {
+            color: #666666;
+        }
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: #388E3C;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        ul li {
+            background-color: #f9f9f9;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+        ul li:hover {
+            background-color: #f1f1f1;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-top: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        video {
+            display: block;
+            margin-top: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .fa-icon {
+            margin-right: 5px;
+        }
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .post-actions a {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .sidebar h2 {
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .sidebar ul {
+            padding: 10px 0;
+        }
+        .sidebar ul li {
+            margin: 5px 0;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>All Users</h2>
+        <form method="post" action="{% url 'logout' %}" class="form-inline my-2 my-lg-0 " >
+            {% csrf_token %}
+            <a href="/"><i class="fa fa-home fa-icon"></i>Home</a>
+            <a href="{% url 'profile' %}"><i class="fa fa-user fa-icon"></i>Profile</a>
+            <!-- <a href="{% url 'blogNotifications' %}"><i class="fas fa-bell fa-icon"></i>Notifications</a> -->
+            <button type="submit" class="btn btn-outline-success my-2 my-sm-0" style = "color: #4CAF50; text-decoration: none; margin-right: 10px; transition: color 0.3s;"></i><i class="fa fa-sign-out fa-icon"></i>Logout</button>
+        </form>
+        <ul>
+            {% for user in users %}
+                <li style="margin-bottom: 4%;"><a href="{% url 'user_posts' user.id %}">{{ user.username }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="container">
+        <h1>Blog Posts</h1>
+        <p>Welcome, {{ user.username }}!</p>
+        <a href="{% url 'post_new' %}"><i class="fas fa-plus-circle fa-icon"></i>Create new post</a>
+        <ul>
+            {% for post in posts %}
+                <li>
+                    <h2>{{ post.title }}</h2>
+                    <p>{{ post.content }}</p>
+                    <p><i class="fas fa-user fa-icon"></i> Author: <a href="{% url 'user_posts' post.author.id %}">{{ post.author.username }}</a></p>
+                    <p><i class="fas fa-calendar-alt fa-icon"></i> Posted on: {{ post.created_at }}</p>
+                    <p><i class="fas fa-thumbs-up fa-icon"></i> Likes: {{ post.total_likes }}</p>
+                    <p><i class="fas fa-thumbs-down fa-icon"></i> Dislikes: {{ post.total_dislikes }}</p>
+                    <p><i class="fas fa-share fa-icon"></i> Shares: {{ post.total_shares }}</p>
+                    {% if post.original_post %}
+                        <p>Reshared from <a href="{% url 'reshare_post' post.original_post.id %}">{{ post.original_post.title }}</a> by <a href="{% url 'user_posts' post.original_post.author.id %}">{{ post.original_post.author.username }}</a></p>
+                    {% endif %}
+                    {% if post.image %}
+                        <img src="{{ post.image.url }}" alt="Image for {{ post.title }}">
+                    {% endif %}
+                    {% if post.video %}
+                        <video width="320" height="240" controls>
+                            <source src="{{ post.video.url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    {% endif %}
+                    <div class="post-actions">
+                        <a href="{% url 'reshare_post' post.id %}"><i class="fas fa-retweet fa-icon"></i>Reshare</a>
+                        <a href="{% url 'post_detail' post.id %}"><i class="fas fa-comments fa-icon"></i>Comments</a>
+                        <a href="{% url 'like_post' post.id %}"><i class="fas fa-thumbs-up fa-icon"></i>Like</a>
+                        <a href="{% url 'dislike_post' post.id %}"><i class="fas fa-thumbs-down fa-icon"></i>Dislike</a>
+                        <a href="{% url 'download_post' post.id %}"><i class="fas fa-download fa-icon"></i>Download</a>
+                        {% if user == post.author %}
+                            <a href="{% url 'post_edit' post.id %}"><i class="fas fa-edit fa-icon"></i>Edit</a>
+                            <a href="{% url 'post_delete' post.id %}"><i class="fas fa-trash-alt fa-icon"></i>Delete</a>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
